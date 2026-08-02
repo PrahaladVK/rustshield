@@ -532,7 +532,7 @@ export default function App() {
                           Downloads:"DL", Desktop:"Dsk", Documents:"Doc",
                           Temp:"Tmp", Startup:"Run", ProgramData:"Sys", Public:"Pub", Startup2:"Str",
                         };
-                        return MAP[last] ?? last.slice(0,3).toUpperCase() || String(i+1);
+                        return MAP[last] ?? (last.slice(0,3).toUpperCase() || String(i+1));
                       };
                       return (
                         <div key={i} title={watchPaths[i]??drives[i]??""} style={{width:34,height:34,borderRadius:7,fontSize:10,fontWeight:600,display:"flex",alignItems:"center",justifyContent:"center",background:done?`${C.accent}25`:curr?C.accent:`${C.muted}18`,color:done?C.accent:curr?"#fff":C.muted,border:`1px solid ${curr?C.accent:done?`${C.accent}40`:C.border}`,cursor:"default"}}>
