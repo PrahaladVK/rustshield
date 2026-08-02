@@ -1,0 +1,16 @@
+# Node
+node_modules/
+dist/
+.env
+
+# Tauri build output
+src-tauri/target/
+src-tauri/WixTools/
+
+# IDE
+.vscode/settings.json
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db

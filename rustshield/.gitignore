@@ -1,0 +1,26 @@
+# Rust build output
+/target/
+**/*.rs.bk
+Cargo.lock
+
+# SQLite database (user data — not committed)
+*.db
+*.db-shm
+*.db-wal
+
+# Quarantine folder (never commit threat files)
+Quarantine/
+
+# IDE
+.vscode/settings.json
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs
+*.log
