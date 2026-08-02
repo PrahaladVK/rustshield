@@ -16,6 +16,11 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 - ACL hardening on quarantine folder (deny-execute via Win32 Security API)
 
 ---
+## [0.1.1] — 2026-07-28
+
+### Fixed
+- GUI: added parentheses around `??` and `||` operator on App.tsx line 535
+  to fix Babel parser error (Nullish coalescing mixed with logical operators)
 
 ## [0.1.0] — 2026-07-25
 
@@ -85,5 +90,6 @@ Initial release — core engine and desktop GUI functional end-to-end.
 - Tauri v2.x · React 18 · TypeScript · Vite 6
 - Target: Windows 10 (build 1903+) / Windows 11 · x86_64-pc-windows-msvc
 
-[Unreleased]: https://github.com/YOUR_USERNAME/rustshield/compare/v0.1.0...HEAD
-[0.1.0]: https://github.com/YOUR_USERNAME/rustshield/releases/tag/v0.1.0
+[Unreleased]: https://github.com/PrahaladVK/rustshield/compare/v0.1.1...HEAD
+[0.1.1]: https://github.com/PrahaladVK/rustshield/compare/v0.1.0...v0.1.1
+[0.1.0]: https://github.com/PrahaladVK/rustshield/releases/tag/v0.1.0
