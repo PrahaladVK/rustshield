@@ -4,7 +4,7 @@
 
 **Lightweight Windows Endpoint Security Engine**
 
-[![Version](https://img.shields.io/badge/version-0.1.1-blue)](rustshield/CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-0.1.1-blue)](CHANGELOG.md)
 [![Rust](https://img.shields.io/badge/rust-1.75%2B-orange)](https://www.rust-lang.org/)
 [![License](https://img.shields.io/badge/license-MIT-green)](rustshield/LICENSE)
 [![Platform](https://img.shields.io/badge/platform-Windows%2010%2F11-lightgrey)](https://www.microsoft.com/windows)
@@ -87,7 +87,7 @@ Full setup instructions → [`rustshield/README.md`](rustshield/README.md)
 
 ## Versioning
 
-See [`rustshield/CHANGELOG.md`](rustshield/CHANGELOG.md) for full version history.
+See [`CHANGELOG.md`](CHANGELOG.md) for full version history.
 
 ## License
 
