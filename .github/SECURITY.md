@@ -35,7 +35,7 @@ The following are **out of scope**:
 
 Report security issues by emailing the project maintainer directly:
 
-> **Email:** prahalad.vk@mitwpu.edu.in  
+> **Email:** vkprahalad004@gmail.com  
 > **Subject line:** `[RustShield Security] Brief description`
 
 Include in your report:
