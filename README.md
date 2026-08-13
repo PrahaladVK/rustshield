@@ -6,7 +6,7 @@
 
 [![Version](https://img.shields.io/badge/version-0.1.1-blue)](CHANGELOG.md)
 [![Rust](https://img.shields.io/badge/rust-1.75%2B-orange)](https://www.rust-lang.org/)
-[![License](https://img.shields.io/badge/license-MIT-green)](rustshield/LICENSE)
+[![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 [![Platform](https://img.shields.io/badge/platform-Windows%2010%2F11-lightgrey)](https://www.microsoft.com/windows)
 
 *Final Year Capstone Project — B.Tech CSE 2026*
@@ -91,4 +91,4 @@ See [`CHANGELOG.md`](CHANGELOG.md) for full version history.
 
 ## License
 
-MIT — see [`rustshield/LICENSE`](rustshield/LICENSE)
+MIT — see [`LICENSE`](LICENSE)
