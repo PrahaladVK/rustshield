@@ -20,8 +20,8 @@ fn main() {
         std::process::exit(1);
     }
 
-    let database = db::SignatureDb::open("rustshield_signatures.db")
-        .expect("failed to open signature DB");
+    let database =
+        db::SignatureDb::open("rustshield_signatures.db").expect("failed to open signature DB");
 
     let file = File::open(&args[1]).expect("failed to open CSV file");
     let reader = BufReader::new(file);

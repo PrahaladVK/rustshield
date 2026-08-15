@@ -8,16 +8,16 @@
 #[cfg(target_os = "windows")]
 pub fn get_running_executables() -> Vec<String> {
     use std::collections::HashSet;
+    use windows::core::PWSTR;
     use windows::Win32::Foundation::{CloseHandle, BOOL};
     use windows::Win32::System::Diagnostics::ToolHelp::{
-        CreateToolhelp32Snapshot, Process32FirstW, Process32NextW,
-        PROCESSENTRY32W, TH32CS_SNAPPROCESS,
+        CreateToolhelp32Snapshot, Process32FirstW, Process32NextW, PROCESSENTRY32W,
+        TH32CS_SNAPPROCESS,
     };
     use windows::Win32::System::Threading::{
         OpenProcess, QueryFullProcessImageNameW, PROCESS_NAME_WIN32,
         PROCESS_QUERY_LIMITED_INFORMATION,
     };
-    use windows::core::PWSTR;
 
     let mut paths: HashSet<String> = HashSet::new();
 
@@ -38,17 +38,14 @@ pub fn get_running_executables() -> Vec<String> {
                 let pid = entry.th32ProcessID;
                 // Skip System Idle Process (0) and System (4)
                 if pid > 4 {
-                    if let Ok(proc_h) = OpenProcess(
-                        PROCESS_QUERY_LIMITED_INFORMATION,
-                        BOOL(0),
-                        pid,
-                    ) {
+                    if let Ok(proc_h) = OpenProcess(PROCESS_QUERY_LIMITED_INFORMATION, BOOL(0), pid)
+                    {
                         let mut buf = [0u16; 1024];
                         let mut len = buf.len() as u32;
                         let pwstr = PWSTR(buf.as_mut_ptr());
-                        if QueryFullProcessImageNameW(
-                            proc_h, PROCESS_NAME_WIN32, pwstr, &mut len,
-                        ).is_ok() {
+                        if QueryFullProcessImageNameW(proc_h, PROCESS_NAME_WIN32, pwstr, &mut len)
+                            .is_ok()
+                        {
                             let path = String::from_utf16_lossy(&buf[..len as usize]);
                             if !path.is_empty() {
                                 let p = std::path::Path::new(&path);
@@ -60,15 +57,22 @@ pub fn get_running_executables() -> Vec<String> {
                         let _ = CloseHandle(proc_h);
                     }
                 }
-                if Process32NextW(snap, &mut entry).is_err() { break; }
+                if Process32NextW(snap, &mut entry).is_err() {
+                    break;
+                }
             }
         }
         let _ = CloseHandle(snap);
     }
 
-    log::info!("Process scan: {} unique running executables found", paths.len());
+    log::info!(
+        "Process scan: {} unique running executables found",
+        paths.len()
+    );
     paths.into_iter().collect()
 }
 
 #[cfg(not(target_os = "windows"))]
-pub fn get_running_executables() -> Vec<String> { vec![] }
+pub fn get_running_executables() -> Vec<String> {
+    vec![]
+}

@@ -7,20 +7,18 @@ mod scanner;
 mod watcher;
 mod yara_scanner;
 
-use std::sync::{Arc, Mutex};
 use std::sync::atomic::AtomicBool;
+use std::sync::{Arc, Mutex};
 use std::thread;
 
-use api::{AppState, init_uptime};
+use api::{init_uptime, AppState};
 use db::SignatureDb;
 use full_scan::ScanProgress;
 use yara_scanner::YaraEngine;
 
 #[tokio::main]
 async fn main() {
-    env_logger::Builder::from_env(
-        env_logger::Env::default().default_filter_or("info")
-    ).init();
+    env_logger::Builder::from_env(env_logger::Env::default().default_filter_or("info")).init();
 
     init_uptime();
     log::info!("RustShield v{} starting...", env!("CARGO_PKG_VERSION"));
@@ -29,12 +27,12 @@ async fn main() {
     seed_test_signatures(&db);
     log::info!("Signature database ready");
 
-    let yara       = YaraEngine::load_from_dir("rules").expect("failed to load YARA rules");
-    let progress   = Arc::new(Mutex::new(ScanProgress::default()));
-    let last_report= Arc::new(Mutex::new(None));
-    let cancel     = Arc::new(AtomicBool::new(false));
+    let yara = YaraEngine::load_from_dir("rules").expect("failed to load YARA rules");
+    let progress = Arc::new(Mutex::new(ScanProgress::default()));
+    let last_report = Arc::new(Mutex::new(None));
+    let cancel = Arc::new(AtomicBool::new(false));
 
-    let watcher_db   = db.clone();
+    let watcher_db = db.clone();
     let watcher_yara = yara.clone();
     thread::spawn(move || {
         let paths = watcher::resolve_watch_paths();
@@ -48,10 +46,18 @@ async fn main() {
         }
     });
 
-    let state = AppState { db, yara, progress, last_report, cancel };
-    let app   = api::build_router(state);
-    let addr  = "127.0.0.1:7878";
-    let listener = tokio::net::TcpListener::bind(addr).await.expect("port 7878 already in use");
+    let state = AppState {
+        db,
+        yara,
+        progress,
+        last_report,
+        cancel,
+    };
+    let app = api::build_router(state);
+    let addr = "127.0.0.1:7878";
+    let listener = tokio::net::TcpListener::bind(addr)
+        .await
+        .expect("port 7878 already in use");
     log::info!("API ready on http://{}", addr);
     axum::serve(listener, app).await.unwrap();
 }

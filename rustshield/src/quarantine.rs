@@ -12,9 +12,9 @@ const QUARANTINE_DIR: &str = "C:\\ProgramData\\RustShield\\Quarantine";
 /// Move a malicious file to quarantine and log to DB.
 /// Uses sha256+timestamp as filename to avoid collisions.
 pub fn quarantine_file(
-    path:        &Path,
-    db:          &Arc<SignatureDb>,
-    sha256:      &str,
+    path: &Path,
+    db: &Arc<SignatureDb>,
+    sha256: &str,
     threat_name: &str,
 ) -> io::Result<PathBuf> {
     fs::create_dir_all(QUARANTINE_DIR)?;
@@ -36,18 +36,18 @@ pub fn quarantine_file(
 
 /// Restore a quarantined file to its original location.
 /// Returns Err if the original path's parent directory no longer exists.
-pub fn restore_file(
-    quarantine_item_id: i64,
-    db: &Arc<SignatureDb>,
-) -> io::Result<String> {
-    let item = db.get_quarantine_item(quarantine_item_id)
+pub fn restore_file(quarantine_item_id: i64, db: &Arc<SignatureDb>) -> io::Result<String> {
+    let item = db
+        .get_quarantine_item(quarantine_item_id)
         .map_err(|e| io::Error::new(io::ErrorKind::Other, e.to_string()))?
         .ok_or_else(|| io::Error::new(io::ErrorKind::NotFound, "Quarantine entry not found"))?;
 
     let qpath = Path::new(&item.quarantine_path);
     if !qpath.exists() {
-        return Err(io::Error::new(io::ErrorKind::NotFound,
-            "Quarantined file is missing from disk"));
+        return Err(io::Error::new(
+            io::ErrorKind::NotFound,
+            "Quarantined file is missing from disk",
+        ));
     }
 
     let orig = Path::new(&item.original_path);
@@ -57,6 +57,10 @@ pub fn restore_file(
 
     fs::rename(qpath, orig)?;
     let _ = db.mark_restored(quarantine_item_id);
-    log::info!("Restored '{}' → '{}'", item.quarantine_path, item.original_path);
+    log::info!(
+        "Restored '{}' → '{}'",
+        item.quarantine_path,
+        item.original_path
+    );
     Ok(item.original_path)
 }
